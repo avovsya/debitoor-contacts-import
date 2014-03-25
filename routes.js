@@ -38,13 +38,13 @@ module.exports = function (app) {
     });
 
     app.get('/auth/debitoor', function (req, res) {
-        return res.redirect('https://app.debitoor.com/login/oauth2/authorize?response_type=code&client_id=' + authConfig.clientID + '&redirect_uri=' + app.get('site uri') + authConfig.callbackURI);
+        return res.redirect('https://app.debitoor.com/login/oauth2/authorize?response_type=code&client_id=' + authConfig.clientID + '&redirect_uri=' + authConfig.callbackURI);
     });
 
     app.get('/auth/debitoor/callback', function (req, res) {
         request.post({
             url: 'https://app.debitoor.com/login/oauth2/access_token',
-            form: { client_secret: authConfig.clientSecret, code: req.query.code, redirect_uri: app.get('site uri') }
+            form: { client_secret: authConfig.clientSecret, code: req.query.code, redirect_uri: authConfig.callbackURI }
         }, function (err, httpResponse, body) {
             if (err) return res.redirect(login);
             req.session.accessToken = JSON.parse(body).access_token;
