@@ -1,7 +1,7 @@
 {
     "clientID": "5331828a185885f628361a77",
     "clientSecret": "f78a3caa78839bdd1babc3f82e15f073",
-    "callbackURI" : "http://localhost:8080/auth/debitoor/callback",
+    "callbackURI" : "http://hidden-retreat-5703.herokuapp.com/auth/debitoor/callback",
 
     "accessToken" : "eyJ1c2VyIjoiNTMzMWY4NjUxODU4ODVmNjI4MzYyODg2IiwiYXBwIjoiNTMzMTgyOGExODU4ODVmNjI4MzYxYTc3IiwiY2hhbGxlbmdlIjowLCIkZSI6MH0KXcKLZsKHw4TCmsOEDcOgVRwwZcO0S8OP"
 }
