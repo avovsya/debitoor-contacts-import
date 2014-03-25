@@ -20,6 +20,7 @@ module.exports = function (app) {
     });
 
     app.get('/show', isLoggedIn, function (req, res) {
+        if (!req.session.contacts) return res.redirect('/');
         res.render('customerList', { contacts: req.session.contacts });
     });
 
@@ -27,7 +28,13 @@ module.exports = function (app) {
      * OAuth authorization
      ***************************/
     app.get('/login', function (req, res) {
+        if (req.session.accessToken) return res.redirect('/');
         res.render('login');
+    });
+
+    app.get('/logout', isLoggedIn, function (req, res) {
+        req.session.destroy();
+        res.redirect('/');
     });
 
     app.get('/auth/debitoor', function (req, res) {
