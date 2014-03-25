@@ -1,6 +1,7 @@
 var authConfig = require('./authConfig.json'),
     request = require('request'),
-    parser = require('./lib/parser');
+    parser = require('./lib/parser'),
+    debitoor = require('./lib/debitoor');
 
 module.exports = function (app) {
 
@@ -8,10 +9,18 @@ module.exports = function (app) {
         res.render('index');
     });
 
-    app.post('/upload', function (req, res) {
+    app.post('/upload', isLoggedIn, function (req, res) {
         parser(req.files.contactsFile.path, function (contacts) {
-            res.send(JSON.stringify(contacts));
+            debitoor.addCustomers(req.session.accessToken, contacts, function (err, contacts) {
+                if (err) return res.send(500, 'Something went wrong: ' + err);
+                req.session.contacts = contacts;
+                res.redirect(303, '/show');
+            });
         });
+    });
+
+    app.get('/show', isLoggedIn, function (req, res) {
+        res.render('customerList', { contacts: req.session.contacts });
     });
 
     /***************************

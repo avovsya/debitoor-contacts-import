@@ -10,7 +10,9 @@
     "express": "3.4.7",
     "jade": "*",
     "request": "~2.34.0",
-    "csv": "~0.3.7"
+    "csv": "~0.3.7",
+    "underscore": "~1.6.0",
+    "async": "~0.2.10"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
