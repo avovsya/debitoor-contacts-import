@@ -1,11 +1,17 @@
 var authConfig = require('./authConfig.json'),
-    request = require('request');
+    request = require('request'),
+    parser = require('./lib/parser');
 
 module.exports = function (app) {
 
     app.get('/', isLoggedIn, function (req, res) {
-        console.log(JSON.stringify(req.session.user.accessToken));
         res.render('index');
+    });
+
+    app.post('/upload', function (req, res) {
+        parser(req.files.contactsFile.path, function (contacts) {
+            res.send(JSON.stringify(contacts));
+        });
     });
 
     /***************************
@@ -25,15 +31,14 @@ module.exports = function (app) {
             form: { client_secret: authConfig.clientSecret, code: req.query.code, redirect_uri: app.get('site uri') }
         }, function (err, httpResponse, body) {
             if (err) return res.redirect(login);
-            req.session.user = {};
-            req.session.user.accessToken = JSON.parse(body).access_token;
+            req.session.accessToken = JSON.parse(body).access_token;
             res.redirect('/');
         });
     });
 }
 
 function isLoggedIn (req, res, next) {
-    if (req.session.user) return next();
+    if (req.session.accessToken) return next();
     res.redirect('/login');
 }
 

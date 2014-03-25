@@ -1,4 +1,7 @@
 extends layout
 
 block content
-  p Welcome to #{at}
+    form(method='POST', action='/upload', enctype="multipart/form-data")
+        label(for='contactsFile') Select CSV file to upload 
+        input(type='file', name='contactsFile')
+        button(type='submit') Submit File
